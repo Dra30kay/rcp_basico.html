@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inscripción – RCP Básico | 4 Jun 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #134E39;
+    --green-light: #1d6b4f;
+    --green-pale: #e8f2ed;
+    --gold: #c9a84c;
+    --gray: #f4f4f2;
+    --border: #d0d8d4;
+    --text: #1a1a1a;
+    --muted: #6b7b74;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--gray);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ── Header ── */
+  header {
+    background: var(--green);
+    color: white;
+    padding: 28px 40px 24px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.55rem;
+    line-height: 1.3;
+    max-width: 560px;
+  }
+
+  header p {
+    font-size: .82rem;
+    opacity: .8;
+    margin-top: 6px;
+    font-style: italic;
+  }
+
+  /* cupo badge */
+  .cupo-badge {
+    background: rgba(255,255,255,.12);
+    border: 1px solid rgba(255,255,255,.25);
+    border-radius: 12px;
+    padding: 14px 22px;
+    text-align: center;
+    min-width: 130px;
+    flex-shrink: 0;
+  }
+  .cupo-badge .num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.4rem;
+    line-height: 1;
+    color: var(--gold);
+  }
+  .cupo-badge .label {
+    font-size: .72rem;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    opacity: .75;
+    margin-top: 4px;
+  }
+
+  /* ── Main ── */
+  main {
+    max-width: 900px;
+    margin: 36px auto;
+    padding: 0 20px 60px;
+  }
+
+  /* notice */
+  .notice {
+    background: #fffbea;
+    border-left: 4px solid var(--gold);
+    padding: 12px 16px;
+    border-radius: 4px;
+    font-size: .83rem;
+    color: #5a4a00;
+    margin-bottom: 28px;
+    line-height: 1.5;
+  }
+
+  /* closed banner */
+  .closed-banner {
+    background: #fdecea;
+    border: 1px solid #f5c6c2;
+    border-radius: 10px;
+    padding: 28px;
+    text-align: center;
+    display: none;
+  }
+  .closed-banner h2 { color: #b71c1c; font-family:'DM Serif Display',serif; font-size:1.4rem; margin-bottom:8px; }
+  .closed-banner p { color: #6b2020; font-size:.9rem; }
+
+  /* ── Form card ── */
+  .card {
+    background: white;
+    border-radius: 14px;
+    padding: 36px 40px;
+    box-shadow: 0 2px 18px rgba(19,78,57,.08);
+    margin-bottom: 32px;
+  }
+
+  .card h2 {
+    font-family: 'DM Serif Display', serif;
+    color: var(--green);
+    font-size: 1.2rem;
+    margin-bottom: 22px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--green-pale);
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px 24px;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .form-group.full { grid-column: 1 / -1; }
+
+  label {
+    font-size: .78rem;
+    font-weight: 600;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  label .req { color: var(--green); margin-left: 2px; }
+
+  input, select {
+    border: 1.5px solid var(--border);
+    border-radius: 7px;
+    padding: 10px 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: .9rem;
+    color: var(--text);
+    transition: border-color .2s, box-shadow .2s;
+    background: white;
+    width: 100%;
+  }
+
+  input:focus, select:focus {
+    outline: none;
+    border-color: var(--green);
+    box-shadow: 0 0 0 3px rgba(19,78,57,.1);
+  }
+
+  select { cursor: pointer; }
+
+  /* submit */
+  .btn-submit {
+    display: block;
+    width: 100%;
+    margin-top: 28px;
+    padding: 14px;
+    background: var(--green);
+    color: white;
+    border: none;
+    border-radius: 9px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: .03em;
+    cursor: pointer;
+    transition: background .2s, transform .1s;
+  }
+  .btn-submit:hover { background: var(--green-light); }
+  .btn-submit:active { transform: scale(.99); }
+  .btn-submit:disabled { background: #aaa; cursor: not-allowed; }
+
+  /* success toast */
+  .toast {
+    position: fixed;
+    bottom: 30px; right: 30px;
+    background: var(--green);
+    color: white;
+    padding: 14px 22px;
+    border-radius: 10px;
+    font-size: .9rem;
+    font-weight: 500;
+    box-shadow: 0 6px 24px rgba(0,0,0,.2);
+    transform: translateY(80px);
+    opacity: 0;
+    transition: all .35s cubic-bezier(.34,1.56,.64,1);
+    pointer-events: none;
+    z-index: 999;
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+
+  /* ── Admin ── */
+  .admin-toggle {
+    text-align: center;
+    margin-top: 40px;
+  }
+  .btn-admin {
+    background: none;
+    border: 1.5px solid var(--border);
+    color: var(--muted);
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-size: .8rem;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all .2s;
+  }
+  .btn-admin:hover { border-color: var(--green); color: var(--green); }
+
+  .admin-panel {
+    display: none;
+    margin-top: 16px;
+  }
+
+  .admin-login {
+    background: white;
+    border-radius: 14px;
+    padding: 28px;
+    box-shadow: 0 2px 18px rgba(19,78,57,.08);
+    max-width: 340px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .admin-login h3 { font-family:'DM Serif Display',serif; color:var(--green); margin-bottom:16px; }
+  .admin-login input { text-align:center; letter-spacing:.15em; margin-bottom:12px; }
+  .btn-login {
+    width: 100%; padding: 10px;
+    background: var(--green); color: white; border: none;
+    border-radius: 7px; font-family:'DM Sans',sans-serif;
+    font-size:.9rem; font-weight:600; cursor:pointer;
+    transition: background .2s;
+  }
+  .btn-login:hover { background: var(--green-light); }
+  .error-msg { color:#b71c1c; font-size:.8rem; margin-top:8px; display:none; }
+
+  .admin-data { display: none; }
+  .admin-data .admin-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
+  }
+  .admin-data h3 { font-family:'DM Serif Display',serif; color:var(--green); font-size:1.15rem; }
+
+  .btn-export, .btn-clear {
+    padding: 8px 18px;
+    border-radius: 7px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: .82rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: background .2s;
+  }
+  .btn-export { background: var(--green); color: white; }
+  .btn-export:hover { background: var(--green-light); }
+  .btn-clear { background: #fdecea; color: #b71c1c; margin-left: 8px; }
+  .btn-clear:hover { background: #f5c6c2; }
+
+  .table-wrap { overflow-x: auto; border-radius: 10px; border: 1px solid var(--border); }
+  table { width: 100%; border-collapse: collapse; font-size: .78rem; background: white; }
+  thead th {
+    background: var(--green); color: white;
+    padding: 10px 10px; text-align: left;
+    font-size: .7rem; letter-spacing: .05em; text-transform: uppercase;
+    white-space: nowrap;
+  }
+  tbody tr { border-bottom: 1px solid var(--border); }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: var(--green-pale); }
+  tbody td { padding: 9px 10px; white-space: nowrap; }
+  .no-data { text-align:center; padding:30px; color:var(--muted); font-style:italic; }
+
+  @media (max-width: 600px) {
+    header { padding: 20px; }
+    .card { padding: 24px 20px; }
+    .form-grid { grid-template-columns: 1fr; }
+    .form-group.full { grid-column: 1; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>Inscripción – RCP Básico<br>Sala de Educación Basada en Simulación</h1>
+    <p>📅 Fecha: <strong>4 de junio de 2026</strong> &nbsp;|&nbsp; Cupo máximo: 6 participantes</p>
+  </div>
+  <div class="cupo-badge">
+    <div class="num" id="cupo-num">6</div>
+    <div class="label">lugares<br>disponibles</div>
+  </div>
+</header>
+
+<main>
+
+  <div class="notice">
+    ⚠️ <strong>Nota:</strong> Escribe con cuidado tus nombres, apellidos y correo electrónico. Una vez elaboradas las constancias <strong>no se podrán modificar</strong>.
+  </div>
+
+  <div class="closed-banner" id="closed-banner">
+    <h2>Inscripciones cerradas</h2>
+    <p>El cupo de 6 participantes está completo. Comunícate con el área para más información.</p>
+  </div>
+
+  <form id="reg-form">
+
+    <!-- Datos personales -->
+    <div class="card">
+      <h2>Datos personales</h2>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Apellido Paterno <span class="req">*</span></label>
+          <input type="text" name="ap_paterno" required placeholder="Ej. García">
+        </div>
+        <div class="form-group">
+          <label>Apellido Materno <span class="req">*</span></label>
+          <input type="text" name="ap_materno" required placeholder="Ej. López">
+        </div>
+        <div class="form-group">
+          <label>Nombre(s) <span class="req">*</span></label>
+          <input type="text" name="nombre" required placeholder="Ej. María Elena">
+        </div>
+        <div class="form-group">
+          <label>Edad <span class="req">*</span></label>
+          <input type="number" name="edad" required min="18" max="99" placeholder="Años">
+        </div>
+        <div class="form-group">
+          <label>Género <span class="req">*</span></label>
+          <select name="genero" required>
+            <option value="">Selecciona…</option>
+            <option>Femenino</option>
+            <option>Masculino</option>
+            <option>Prefiero no decir</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Turno <span class="req">*</span></label>
+          <select name="turno" required>
+            <option value="">Selecciona…</option>
+            <option>Matutino</option>
+            <option>Vespertino</option>
+            <option>Nocturno</option>
+            <option>Mixto</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Correo electrónico <span class="req">*</span></label>
+          <input type="email" name="correo" required placeholder="ejemplo@correo.com">
+        </div>
+        <div class="form-group">
+          <label>Teléfono <span class="req">*</span></label>
+          <input type="tel" name="telefono" required placeholder="10 dígitos">
+        </div>
+      </div>
+    </div>
+
+    <!-- Datos institucionales -->
+    <div class="card">
+      <h2>Datos institucionales</h2>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Categoría <span class="req">*</span></label>
+          <input type="text" name="categoria" required placeholder="Como aparece en su tarjetón">
+        </div>
+        <div class="form-group">
+          <label>Grado <span class="req">*</span></label>
+          <input type="text" name="grado" required placeholder="Ej. Especialista, Residente…">
+        </div>
+        <div class="form-group">
+          <label>Especialidad <span class="req">*</span></label>
+          <input type="text" name="especialidad" required placeholder="Ej. Medicina Interna">
+        </div>
+        <div class="form-group">
+          <label>Adscripción <span class="req">*</span></label>
+          <input type="text" name="adscripcion" required placeholder="Servicio o área">
+        </div>
+        <div class="form-group full">
+          <label>Matrícula <span class="req">*</span></label>
+          <input type="text" name="matricula" required placeholder="Número de matrícula">
+        </div>
+      </div>
+    </div>
+
+    <!-- Sobre la actividad -->
+    <div class="card">
+      <h2>Sobre la actividad</h2>
+      <div class="form-grid">
+        <div class="form-group full">
+          <label>Nombre de la actividad <span class="req">*</span></label>
+          <input type="text" name="actividad" required value="RCP Básico" readonly style="background:#f0f4f2;color:#444;">
+        </div>
+        <div class="form-group">
+          <label>Mes de la actividad</label>
+          <select name="mes">
+            <option value="">Selecciona…</option>
+            <option>Enero</option><option>Febrero</option><option>Marzo</option>
+            <option>Abril</option><option>Mayo</option><option selected>Junio</option>
+            <option>Julio</option><option>Agosto</option><option>Septiembre</option>
+            <option>Octubre</option><option>Noviembre</option><option>Diciembre</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Día de la actividad</label>
+          <input type="number" name="dia" min="1" max="31" value="4" readonly style="background:#f0f4f2;color:#444;">
+        </div>
+        <div class="form-group">
+          <label>¿Es la primera vez que acude? <span class="req">*</span></label>
+          <select name="primera_vez" required id="primera-vez-sel">
+            <option value="">Selecciona…</option>
+            <option value="Sí">Sí</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+        <div class="form-group" id="curso-anterior-group" style="display:none;">
+          <label>¿A cuál curso asistió antes?</label>
+          <input type="text" name="curso_anterior" placeholder="Nombre del curso previo">
+        </div>
+        <div class="form-group full">
+          <label>¿Cómo se enteró de este curso? <span class="req">*</span></label>
+          <select name="como_entero" required>
+            <option value="">Selecciona…</option>
+            <option>Compañero de trabajo</option>
+            <option>Jefe inmediato</option>
+            <option>Correo institucional</option>
+            <option>Cartel / volante</option>
+            <option>Redes sociales</option>
+            <option>Otro</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label>¿Sabía de la existencia de esta Sala de Educación Basada en Simulación? <span class="req">*</span></label>
+          <select name="sabia_sala" required>
+            <option value="">Selecciona…</option>
+            <option>Sí, la conocía</option>
+            <option>No, es mi primera vez que la conozco</option>
+            <option>Sabía que existía pero no la había visitado</option>
+          </select>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-submit" id="btn-submit">Enviar inscripción</button>
+    </div>
+
+  </form>
+
+  <!-- Admin -->
+  <div class="admin-toggle">
+    <button class="btn-admin" onclick="toggleAdmin()">🔒 Acceso administrador</button>
+  </div>
+
+  <div class="admin-panel" id="admin-panel">
+    <div class="admin-login" id="admin-login">
+      <h3>Área restringida</h3>
+      <input type="password" id="pwd-input" placeholder="Contraseña" onkeydown="if(event.key==='Enter')checkPwd()">
+      <button class="btn-login" onclick="checkPwd()">Entrar</button>
+      <div class="error-msg" id="pwd-error">Contraseña incorrecta</div>
+    </div>
+
+    <div class="admin-data" id="admin-data">
+      <div class="card">
+        <div class="admin-header">
+          <h3>Participantes inscritos</h3>
+          <div>
+            <button class="btn-export" onclick="exportCSV()">⬇ Exportar CSV</button>
+            <button class="btn-clear" onclick="clearAll()">🗑 Borrar todo</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table id="admin-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Ap. Paterno</th>
+                <th>Ap. Materno</th>
+                <th>Nombre</th>
+                <th>Edad</th>
+                <th>Género</th>
+                <th>Turno</th>
+                <th>Correo</th>
+                <th>Teléfono</th>
+                <th>Categoría</th>
+                <th>Grado</th>
+                <th>Especialidad</th>
+                <th>Adscripción</th>
+                <th>Matrícula</th>
+                <th>Actividad</th>
+                <th>Mes</th>
+                <th>Día</th>
+                <th>1ª vez</th>
+                <th>Curso anterior</th>
+                <th>Cómo se enteró</th>
+                <th>¿Sabía de la sala?</th>
+              </tr>
+            </thead>
+            <tbody id="admin-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<div class="toast" id="toast">✅ ¡Inscripción enviada con éxito!</div>
+
+<script>
+  const CUPO = 6;
+  const STORAGE_KEY = 'rcp_basico_inscritos';
+  // ⬇ Cambia esta contraseña antes de subir
+  const ADMIN_PWD = 'simulacion2025';
+
+  function getInscritos() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+    catch { return []; }
+  }
+  function saveInscritos(arr) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
+  }
+
+  function updateCupo() {
+    const inscritos = getInscritos();
+    const disp = CUPO - inscritos.length;
+    document.getElementById('cupo-num').textContent = disp;
+    const form = document.getElementById('reg-form');
+    const banner = document.getElementById('closed-banner');
+    const btn = document.getElementById('btn-submit');
+    if (disp <= 0) {
+      form.style.display = 'none';
+      banner.style.display = 'block';
+    } else {
+      form.style.display = 'block';
+      banner.style.display = 'none';
+      btn.disabled = false;
+    }
+  }
+
+  // Show/hide "curso anterior"
+  document.getElementById('primera-vez-sel').addEventListener('change', function() {
+    document.getElementById('curso-anterior-group').style.display =
+      this.value === 'No' ? 'flex' : 'none';
+  });
+
+  // Form submit
+  document.getElementById('reg-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const inscritos = getInscritos();
+    if (inscritos.length >= CUPO) { updateCupo(); return; }
+
+    const data = Object.fromEntries(new FormData(this));
+    inscritos.push(data);
+    saveInscritos(inscritos);
+    updateCupo();
+    this.reset();
+    document.getElementById('curso-anterior-group').style.display = 'none';
+    showToast();
+  });
+
+  function showToast() {
+    const t = document.getElementById('toast');
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3500);
+  }
+
+  // Admin
+  function toggleAdmin() {
+    const panel = document.getElementById('admin-panel');
+    panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+  }
+
+  function checkPwd() {
+    const val = document.getElementById('pwd-input').value;
+    const err = document.getElementById('pwd-error');
+    if (val === ADMIN_PWD) {
+      document.getElementById('admin-login').style.display = 'none';
+      document.getElementById('admin-data').style.display = 'block';
+      renderTable();
+    } else {
+      err.style.display = 'block';
+      document.getElementById('pwd-input').value = '';
+    }
+  }
+
+  function renderTable() {
+    const inscritos = getInscritos();
+    const tbody = document.getElementById('admin-tbody');
+    if (inscritos.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="21" class="no-data">Aún no hay inscritos.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = inscritos.map((p, i) => `
+      <tr>
+        <td>${i+1}</td>
+        <td>${p.ap_paterno||''}</td>
+        <td>${p.ap_materno||''}</td>
+        <td>${p.nombre||''}</td>
+        <td>${p.edad||''}</td>
+        <td>${p.genero||''}</td>
+        <td>${p.turno||''}</td>
+        <td>${p.correo||''}</td>
+        <td>${p.telefono||''}</td>
+        <td>${p.categoria||''}</td>
+        <td>${p.grado||''}</td>
+        <td>${p.especialidad||''}</td>
+        <td>${p.adscripcion||''}</td>
+        <td>${p.matricula||''}</td>
+        <td>${p.actividad||''}</td>
+        <td>${p.mes||''}</td>
+        <td>${p.dia||''}</td>
+        <td>${p.primera_vez||''}</td>
+        <td>${p.curso_anterior||''}</td>
+        <td>${p.como_entero||''}</td>
+        <td>${p.sabia_sala||''}</td>
+      </tr>`).join('');
+  }
+
+  function exportCSV() {
+    const inscritos = getInscritos();
+    if (inscritos.length === 0) { alert('No hay datos para exportar.'); return; }
+    const headers = ['No','Ap_Paterno','Ap_Materno','Nombre','Edad','Genero','Turno','Correo','Telefono',
+      'Categoria','Grado','Especialidad','Adscripcion','Matricula','Actividad','Mes','Dia',
+      'Primera_Vez','Curso_Anterior','Como_Se_Entero','Sabia_De_La_Sala'];
+    const keys = ['ap_paterno','ap_materno','nombre','edad','genero','turno','correo','telefono',
+      'categoria','grado','especialidad','adscripcion','matricula','actividad','mes','dia',
+      'primera_vez','curso_anterior','como_entero','sabia_sala'];
+    const rows = [headers.join(',')];
+    inscritos.forEach((p, i) => {
+      const row = [i+1, ...keys.map(k => `"${(p[k]||'').replace(/"/g,'""')}"`]];
+      rows.push(row.join(','));
+    });
+    const blob = new Blob(['\uFEFF'+rows.join('\n')], {type:'text/csv;charset=utf-8;'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'inscritos_simulacion.csv';
+    a.click();
+  }
+
+  function clearAll() {
+    if (confirm('¿Seguro que quieres borrar todos los registros? Esta acción no se puede deshacer.')) {
+      localStorage.removeItem(STORAGE_KEY);
+      renderTable();
+      updateCupo();
+    }
+  }
+
+  // Init
+  updateCupo();
+</script>
+</body>
+</html>
