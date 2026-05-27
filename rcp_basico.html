@@ -466,7 +466,7 @@
     <button class="btn-admin" onclick="toggleAdmin()">🔒 Acceso administrador</button>
   </div>
 
-  <div class="admin-panel" id="admin-panel">
+  <div class="admin-panel" id="admin-panel" style="display:none;">
     <div class="admin-login" id="admin-login">
       <h3>Área restringida</h3>
       <input type="password" id="pwd-input" placeholder="Contraseña" onkeydown="if(event.key==='Enter')checkPwd()">
@@ -582,7 +582,12 @@
   // Admin
   function toggleAdmin() {
     const panel = document.getElementById('admin-panel');
-    panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+    if (panel.style.display === '' || panel.style.display === 'none') {
+      panel.style.display = 'block';
+      panel.scrollIntoView({behavior: 'smooth'});
+    } else {
+      panel.style.display = 'none';
+    }
   }
 
   function checkPwd() {
