@@ -28,20 +28,17 @@
   label .req{color:var(--green);margin-left:2px}
   input,select{border:1.5px solid var(--border);border-radius:7px;padding:10px 12px;font-family:'DM Sans',sans-serif;font-size:.9rem;color:var(--text);transition:border-color .2s;background:white;width:100%}
   input:focus,select:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px rgba(19,78,57,.1)}
-  .btn-submit{display:block;width:100%;margin-top:28px;padding:14px;background:var(--green);color:white;border:none;border-radius:9px;font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:600;cursor:pointer;transition:background .2s}
-  .btn-submit:hover{background:var(--green-light)}
+  .btn-submit{display:block;width:100%;margin-top:28px;padding:14px;background:var(--green);color:white;border:none;border-radius:9px;font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:600;cursor:pointer}
   .btn-submit:disabled{background:#aaa;cursor:not-allowed}
-  .toast{position:fixed;bottom:30px;right:30px;background:var(--green);color:white;padding:14px 22px;border-radius:10px;font-size:.9rem;font-weight:500;box-shadow:0 6px 24px rgba(0,0,0,.2);transform:translateY(80px);opacity:0;transition:all .35s cubic-bezier(.34,1.56,.64,1);pointer-events:none;z-index:999}
+  .toast{position:fixed;bottom:30px;right:30px;background:var(--green);color:white;padding:14px 22px;border-radius:10px;font-size:.9rem;font-weight:500;box-shadow:0 6px 24px rgba(0,0,0,.2);transform:translateY(80px);opacity:0;transition:all .35s;pointer-events:none;z-index:999}
   .toast.show{transform:translateY(0);opacity:1}
   .admin-toggle{text-align:center;margin-top:40px}
-  .btn-admin{background:none;border:1.5px solid var(--border);color:var(--muted);padding:8px 20px;border-radius:20px;font-size:.8rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
-  .btn-admin:hover{border-color:var(--green);color:var(--green)}
+  .btn-admin{background:none;border:1.5px solid var(--border);color:var(--muted);padding:8px 20px;border-radius:20px;font-size:.8rem;cursor:pointer;font-family:'DM Sans',sans-serif}
   .admin-panel{display:none;margin-top:16px}
   .admin-login{background:white;border-radius:14px;padding:28px;box-shadow:0 2px 18px rgba(19,78,57,.08);max-width:340px;margin:0 auto;text-align:center}
   .admin-login h3{font-family:'DM Serif Display',serif;color:var(--green);margin-bottom:16px}
   .admin-login input{text-align:center;letter-spacing:.15em;margin-bottom:12px}
   .btn-login{width:100%;padding:10px;background:var(--green);color:white;border:none;border-radius:7px;font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:600;cursor:pointer}
-  .btn-login:hover{background:var(--green-light)}
   .error-msg{color:#b71c1c;font-size:.8rem;margin-top:8px;display:none}
   .admin-data{display:none}
   .admin-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:12px}
@@ -49,12 +46,12 @@
   .btn-export{padding:8px 18px;border-radius:7px;font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:600;cursor:pointer;border:none;background:var(--green);color:white}
   .table-wrap{overflow-x:auto;border-radius:10px;border:1px solid var(--border)}
   table{width:100%;border-collapse:collapse;font-size:.78rem;background:white}
-  thead th{background:var(--green);color:white;padding:10px;text-align:left;font-size:.7rem;letter-spacing:.05em;text-transform:uppercase;white-space:nowrap}
+  thead th{background:var(--green);color:white;padding:10px;text-align:left;font-size:.7rem;white-space:nowrap}
   tbody tr{border-bottom:1px solid var(--border)}
   tbody tr:hover{background:var(--green-pale)}
   tbody td{padding:9px 10px;white-space:nowrap}
   .no-data{text-align:center;padding:30px;color:var(--muted);font-style:italic}
-  @media(max-width:600px){header{padding:20px}.card{padding:24px 20px}.form-grid{grid-template-columns:1fr}.form-group.full{grid-column:1}}
+  @media(max-width:600px){header{padding:20px}.card{padding:24px 20px}.form-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -70,44 +67,41 @@
 </header>
 <main>
   <div class="notice">⚠️ <strong>Nota:</strong> Escribe con cuidado tus nombres, apellidos y correo electrónico. Una vez elaboradas las constancias <strong>no se podrán modificar</strong>.</div>
-  <div class="closed-banner" id="closed-banner">
-    <h2>Inscripciones cerradas</h2>
-    <p>El cupo de 6 participantes está completo. Comunícate con el área para más información.</p>
-  </div>
+  <div class="closed-banner" id="closed-banner"><h2>Inscripciones cerradas</h2><p>El cupo de 6 participantes está completo.</p></div>
   <form id="reg-form" style="display:none">
     <div class="card">
       <h2>Datos personales</h2>
       <div class="form-grid">
-        <div class="form-group"><label>Apellido Paterno <span class="req">*</span></label><input type="text" name="ap_paterno" required placeholder="Ej. García"></div>
-        <div class="form-group"><label>Apellido Materno <span class="req">*</span></label><input type="text" name="ap_materno" required placeholder="Ej. López"></div>
-        <div class="form-group"><label>Nombre(s) <span class="req">*</span></label><input type="text" name="nombre" required placeholder="Ej. María Elena"></div>
-        <div class="form-group"><label>Edad <span class="req">*</span></label><input type="number" name="edad" required min="18" max="99" placeholder="Años"></div>
-        <div class="form-group"><label>Género <span class="req">*</span></label><select name="genero" required><option value="">Selecciona…</option><option>Femenino</option><option>Masculino</option><option>Prefiero no decir</option></select></div>
-        <div class="form-group"><label>Turno <span class="req">*</span></label><select name="turno" required><option value="">Selecciona…</option><option>Matutino</option><option>Vespertino</option><option>Nocturno</option><option>Mixto</option></select></div>
-        <div class="form-group"><label>Correo electrónico <span class="req">*</span></label><input type="email" name="correo" required placeholder="ejemplo@correo.com"></div>
-        <div class="form-group"><label>Teléfono <span class="req">*</span></label><input type="tel" name="telefono" required placeholder="10 dígitos"></div>
+        <div class="form-group"><label>Apellido Paterno <span class="req">*</span></label><input type="text" id="ap_paterno" required placeholder="Ej. García"></div>
+        <div class="form-group"><label>Apellido Materno <span class="req">*</span></label><input type="text" id="ap_materno" required placeholder="Ej. López"></div>
+        <div class="form-group"><label>Nombre(s) <span class="req">*</span></label><input type="text" id="nombre" required placeholder="Ej. María Elena"></div>
+        <div class="form-group"><label>Edad <span class="req">*</span></label><input type="number" id="edad" required min="18" max="99" placeholder="Años"></div>
+        <div class="form-group"><label>Género <span class="req">*</span></label><select id="genero" required><option value="">Selecciona…</option><option>Femenino</option><option>Masculino</option><option>Prefiero no decir</option></select></div>
+        <div class="form-group"><label>Turno <span class="req">*</span></label><select id="turno" required><option value="">Selecciona…</option><option>Matutino</option><option>Vespertino</option><option>Nocturno</option><option>Mixto</option></select></div>
+        <div class="form-group"><label>Correo electrónico <span class="req">*</span></label><input type="email" id="correo" required placeholder="ejemplo@correo.com"></div>
+        <div class="form-group"><label>Teléfono <span class="req">*</span></label><input type="tel" id="telefono" required placeholder="10 dígitos"></div>
       </div>
     </div>
     <div class="card">
       <h2>Datos institucionales</h2>
       <div class="form-grid">
-        <div class="form-group"><label>Categoría <span class="req">*</span></label><input type="text" name="categoria" required placeholder="Como aparece en su tarjetón"></div>
-        <div class="form-group"><label>Grado <span class="req">*</span></label><input type="text" name="grado" required placeholder="Ej. Especialista, Residente…"></div>
-        <div class="form-group"><label>Especialidad <span class="req">*</span></label><input type="text" name="especialidad" required placeholder="Ej. Medicina Interna"></div>
-        <div class="form-group"><label>Adscripción <span class="req">*</span></label><input type="text" name="adscripcion" required placeholder="Servicio o área"></div>
-        <div class="form-group full"><label>Matrícula <span class="req">*</span></label><input type="text" name="matricula" required placeholder="Número de matrícula"></div>
+        <div class="form-group"><label>Categoría <span class="req">*</span></label><input type="text" id="categoria" required placeholder="Como aparece en su tarjetón"></div>
+        <div class="form-group"><label>Grado <span class="req">*</span></label><input type="text" id="grado" required placeholder="Ej. Especialista, Residente…"></div>
+        <div class="form-group"><label>Especialidad <span class="req">*</span></label><input type="text" id="especialidad" required placeholder="Ej. Medicina Interna"></div>
+        <div class="form-group"><label>Adscripción <span class="req">*</span></label><input type="text" id="adscripcion" required placeholder="Servicio o área"></div>
+        <div class="form-group full"><label>Matrícula <span class="req">*</span></label><input type="text" id="matricula" required placeholder="Número de matrícula"></div>
       </div>
     </div>
     <div class="card">
       <h2>Sobre la actividad</h2>
       <div class="form-grid">
-        <div class="form-group full"><label>Nombre de la actividad</label><input type="text" name="actividad" value="RCP Básico" readonly style="background:#f0f4f2;color:#444"></div>
-        <div class="form-group"><label>Mes</label><input type="text" name="mes" value="Junio" readonly style="background:#f0f4f2;color:#444"></div>
-        <div class="form-group"><label>Día</label><input type="text" name="dia" value="4" readonly style="background:#f0f4f2;color:#444"></div>
-        <div class="form-group"><label>¿Es la primera vez que acude? <span class="req">*</span></label><select name="primera_vez" required id="pv"><option value="">Selecciona…</option><option>Sí</option><option>No</option></select></div>
-        <div class="form-group" id="ca-group" style="display:none"><label>¿A cuál curso asistió antes?</label><input type="text" name="curso_anterior" placeholder="Nombre del curso previo"></div>
-        <div class="form-group full"><label>¿Cómo se enteró? <span class="req">*</span></label><select name="como_entero" required><option value="">Selecciona…</option><option>Compañero de trabajo</option><option>Jefe inmediato</option><option>Correo institucional</option><option>Cartel / volante</option><option>Redes sociales</option><option>Otro</option></select></div>
-        <div class="form-group full"><label>¿Sabía de la existencia de esta Sala? <span class="req">*</span></label><select name="sabia_sala" required><option value="">Selecciona…</option><option>Sí, la conocía</option><option>No, es mi primera vez que la conozco</option><option>Sabía que existía pero no la había visitado</option></select></div>
+        <div class="form-group full"><label>Nombre de la actividad</label><input type="text" id="actividad" value="RCP Básico" readonly style="background:#f0f4f2;color:#444"></div>
+        <div class="form-group"><label>Mes</label><input type="text" id="mes" value="Junio" readonly style="background:#f0f4f2;color:#444"></div>
+        <div class="form-group"><label>Día</label><input type="text" id="dia" value="4" readonly style="background:#f0f4f2;color:#444"></div>
+        <div class="form-group"><label>¿Es la primera vez que acude? <span class="req">*</span></label><select id="primera_vez" required onchange="document.getElementById('ca-group').style.display=this.value==='No'?'flex':'none'"><option value="">Selecciona…</option><option>Sí</option><option>No</option></select></div>
+        <div class="form-group" id="ca-group" style="display:none"><label>¿A cuál curso asistió antes?</label><input type="text" id="curso_anterior" placeholder="Nombre del curso previo"></div>
+        <div class="form-group full"><label>¿Cómo se enteró? <span class="req">*</span></label><select id="como_entero" required><option value="">Selecciona…</option><option>Compañero de trabajo</option><option>Jefe inmediato</option><option>Correo institucional</option><option>Cartel / volante</option><option>Redes sociales</option><option>Otro</option></select></div>
+        <div class="form-group full"><label>¿Sabía de la existencia de esta Sala? <span class="req">*</span></label><select id="sabia_sala" required><option value="">Selecciona…</option><option>Sí, la conocía</option><option>No, es mi primera vez que la conozco</option><option>Sabía que existía pero no la había visitado</option></select></div>
       </div>
       <button type="submit" class="btn-submit" id="btn-submit">Enviar inscripción</button>
     </div>
@@ -123,7 +117,7 @@
     <div class="admin-data" id="admin-data">
       <div class="card">
         <div class="admin-header">
-          <h3>Participantes inscritos – RCP Básico</h3>
+          <h3>Participantes – RCP Básico</h3>
           <button class="btn-export" onclick="exportCSV()">⬇ Exportar CSV</button>
         </div>
         <div class="table-wrap">
@@ -136,96 +130,119 @@
 </main>
 <div class="toast" id="toast">✅ ¡Inscripción enviada con éxito!</div>
 <script>
-  const API = 'https://sheetdb.io/api/v1/1z7jh9anhtwe2';
-  const CURSO = 'RCP Básico';
-  const CUPO = 6;
-  const ADMIN_PWD = 'simulacion2025';
-  let inscritos = [];
+var API = 'https://sheetdb.io/api/v1/1z7jh9anhtwe2';
+var CURSO = 'RCP Básico';
+var CUPO = 6;
+var ADMIN_PWD = 'simulacion2025';
+var inscritos = [];
 
-  async function init() {
-    try {
-      const res = await fetch(API + '?sheet=Hoja 1&curso=' + encodeURIComponent(CURSO));
-      inscritos = (await res.json()).filter(r => r.curso === CURSO);
-      const disp = CUPO - inscritos.length;
-      document.getElementById('cupo-num').textContent = Math.max(0, disp);
-      if (disp <= 0) {
-        document.getElementById('closed-banner').style.display = 'block';
-      } else {
-        document.getElementById('reg-form').style.display = 'block';
-      }
-    } catch(e) {
-      document.getElementById('cupo-num').textContent = CUPO;
-      document.getElementById('reg-form').style.display = 'block';
-    }
-  }
+function g(id){ return document.getElementById(id); }
 
-  document.getElementById('pv').addEventListener('change', function() {
-    document.getElementById('ca-group').style.display = this.value === 'No' ? 'flex' : 'none';
-  });
-
-  document.getElementById('reg-form').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    const btn = document.getElementById('btn-submit');
-    btn.disabled = true; btn.textContent = 'Enviando…';
-    const fd = new FormData(this);
-    const data = Object.fromEntries(fd);
-    data.curso = CURSO;
-    try {
-      const res = await fetch(API, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({data: data})
-      });
-      if (res.ok) {
-        document.getElementById('toast').classList.add('show');
-        setTimeout(() => document.getElementById('toast').classList.remove('show'), 3500);
-        this.reset();
-        document.getElementById('ca-group').style.display = 'none';
-        await init();
-      } else {
-        alert('Error al enviar. Intenta de nuevo.');
-      }
-    } catch(err) {
-      alert('Error de conexión.');
-    }
-    btn.disabled = false; btn.textContent = 'Enviar inscripción';
-  });
-
-  function toggleAdmin() {
-    const p = document.getElementById('admin-panel');
-    const hidden = window.getComputedStyle(p).display === 'none';
-    p.style.display = hidden ? 'block' : 'none';
-    if (hidden) setTimeout(() => p.scrollIntoView({behavior:'smooth'}), 50);
-  }
-
-  function checkPwd() {
-    if (document.getElementById('pwd-input').value === ADMIN_PWD) {
-      document.getElementById('admin-login').style.display = 'none';
-      document.getElementById('admin-data').style.display = 'block';
-      renderTable();
+function init(){
+  fetch(API).then(function(r){ return r.json(); }).then(function(data){
+    inscritos = data.filter(function(r){ return r.curso === CURSO; });
+    var disp = CUPO - inscritos.length;
+    g('cupo-num').textContent = Math.max(0,disp);
+    if(disp <= 0){
+      g('closed-banner').style.display = 'block';
     } else {
-      document.getElementById('pwd-error').style.display = 'block';
-      document.getElementById('pwd-input').value = '';
+      g('reg-form').style.display = 'block';
     }
-  }
+  }).catch(function(){
+    g('cupo-num').textContent = CUPO;
+    g('reg-form').style.display = 'block';
+  });
+}
 
-  function renderTable() {
-    const tbody = document.getElementById('admin-tbody');
-    if (!inscritos.length) { tbody.innerHTML = '<tr><td colspan="21" class="no-data">Aún no hay inscritos.</td></tr>'; return; }
-    tbody.innerHTML = inscritos.map((p,i) => `<tr><td>${i+1}</td><td>${p.ap_paterno||''}</td><td>${p.ap_materno||''}</td><td>${p.nombre||''}</td><td>${p.edad||''}</td><td>${p.genero||''}</td><td>${p.turno||''}</td><td>${p.correo||''}</td><td>${p.telefono||''}</td><td>${p.categoria||''}</td><td>${p.grado||''}</td><td>${p.especialidad||''}</td><td>${p.adscripcion||''}</td><td>${p.matricula||''}</td><td>${p.actividad||''}</td><td>${p.mes||''}</td><td>${p.dia||''}</td><td>${p.primera_vez||''}</td><td>${p.curso_anterior||''}</td><td>${p.como_entero||''}</td><td>${p.sabia_sala||''}</td></tr>`).join('');
-  }
+g('reg-form').addEventListener('submit', function(e){
+  e.preventDefault();
+  var fields = ['ap_paterno','ap_materno','nombre','edad','genero','turno','correo','telefono','categoria','grado','especialidad','adscripcion','matricula','primera_vez','como_entero','sabia_sala'];
+  var valid = true;
+  fields.forEach(function(f){ if(!g(f).value){ valid=false; g(f).style.borderColor='red'; } else { g(f).style.borderColor=''; } });
+  if(!valid){ alert('Por favor llena todos los campos obligatorios.'); return; }
+  var btn = g('btn-submit');
+  btn.disabled = true; btn.textContent = 'Enviando…';
+  var data = {
+    curso: CURSO,
+    ap_paterno: g('ap_paterno').value,
+    ap_materno: g('ap_materno').value,
+    nombre: g('nombre').value,
+    edad: g('edad').value,
+    genero: g('genero').value,
+    turno: g('turno').value,
+    correo: g('correo').value,
+    telefono: g('telefono').value,
+    categoria: g('categoria').value,
+    grado: g('grado').value,
+    especialidad: g('especialidad').value,
+    adscripcion: g('adscripcion').value,
+    matricula: g('matricula').value,
+    actividad: g('actividad').value,
+    mes: g('mes').value,
+    dia: g('dia').value,
+    primera_vez: g('primera_vez').value,
+    curso_anterior: g('curso_anterior') ? g('curso_anterior').value : '',
+    como_entero: g('como_entero').value,
+    sabia_sala: g('sabia_sala').value
+  };
+  fetch(API, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({data: data})
+  }).then(function(r){
+    if(r.ok){
+      g('toast').classList.add('show');
+      setTimeout(function(){ g('toast').classList.remove('show'); }, 3500);
+      g('reg-form').reset();
+      g('ca-group').style.display = 'none';
+      init();
+    } else {
+      r.text().then(function(t){ alert('Error: ' + t); });
+    }
+    btn.disabled=false; btn.textContent='Enviar inscripción';
+  }).catch(function(err){
+    alert('Error de conexión: ' + err);
+    btn.disabled=false; btn.textContent='Enviar inscripción';
+  });
+});
 
-  function exportCSV() {
-    if (!inscritos.length) { alert('No hay datos.'); return; }
-    const keys = ['ap_paterno','ap_materno','nombre','edad','genero','turno','correo','telefono','categoria','grado','especialidad','adscripcion','matricula','actividad','mes','dia','primera_vez','curso_anterior','como_entero','sabia_sala'];
-    const headers = ['No','Ap_Paterno','Ap_Materno','Nombre','Edad','Genero','Turno','Correo','Telefono','Categoria','Grado','Especialidad','Adscripcion','Matricula','Actividad','Mes','Dia','Primera_Vez','Curso_Anterior','Como_Se_Entero','Sabia_De_La_Sala'];
-    const rows = [headers.join(','), ...inscritos.map((p,i) => [i+1,...keys.map(k=>`"${(p[k]||'').replace(/"/g,'""')}"`]].join(','))];
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(new Blob(['\uFEFF'+rows.join('\n')], {type:'text/csv;charset=utf-8;'}));
-    a.download = 'inscritos_rcp_basico.csv'; a.click();
-  }
+function toggleAdmin(){
+  var p = g('admin-panel');
+  p.style.display = p.style.display==='none'||p.style.display==='' ? 'block' : 'none';
+  if(p.style.display==='block') setTimeout(function(){ p.scrollIntoView({behavior:'smooth'}); },50);
+}
 
-  init();
+function checkPwd(){
+  if(g('pwd-input').value === ADMIN_PWD){
+    g('admin-login').style.display='none';
+    g('admin-data').style.display='block';
+    renderTable();
+  } else {
+    g('pwd-error').style.display='block';
+    g('pwd-input').value='';
+  }
+}
+
+function renderTable(){
+  var tbody = g('admin-tbody');
+  if(!inscritos.length){ tbody.innerHTML='<tr><td colspan="21" class="no-data">Aún no hay inscritos.</td></tr>'; return; }
+  tbody.innerHTML = inscritos.map(function(p,i){
+    return '<tr><td>'+(i+1)+'</td><td>'+(p.ap_paterno||'')+'</td><td>'+(p.ap_materno||'')+'</td><td>'+(p.nombre||'')+'</td><td>'+(p.edad||'')+'</td><td>'+(p.genero||'')+'</td><td>'+(p.turno||'')+'</td><td>'+(p.correo||'')+'</td><td>'+(p.telefono||'')+'</td><td>'+(p.categoria||'')+'</td><td>'+(p.grado||'')+'</td><td>'+(p.especialidad||'')+'</td><td>'+(p.adscripcion||'')+'</td><td>'+(p.matricula||'')+'</td><td>'+(p.actividad||'')+'</td><td>'+(p.mes||'')+'</td><td>'+(p.dia||'')+'</td><td>'+(p.primera_vez||'')+'</td><td>'+(p.curso_anterior||'')+'</td><td>'+(p.como_entero||'')+'</td><td>'+(p.sabia_sala||'')+'</td></tr>';
+  }).join('');
+}
+
+function exportCSV(){
+  if(!inscritos.length){ alert('No hay datos.'); return; }
+  var keys=['ap_paterno','ap_materno','nombre','edad','genero','turno','correo','telefono','categoria','grado','especialidad','adscripcion','matricula','actividad','mes','dia','primera_vez','curso_anterior','como_entero','sabia_sala'];
+  var headers=['No','Ap_Paterno','Ap_Materno','Nombre','Edad','Genero','Turno','Correo','Telefono','Categoria','Grado','Especialidad','Adscripcion','Matricula','Actividad','Mes','Dia','Primera_Vez','Curso_Anterior','Como_Se_Entero','Sabia_De_La_Sala'];
+  var rows=[headers.join(',')];
+  inscritos.forEach(function(p,i){ rows.push([i+1].concat(keys.map(function(k){ return '"'+((p[k]||'').replace(/"/g,'""'))+'"'; })).join(',')); });
+  var a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob(['\uFEFF'+rows.join('\n')],{type:'text/csv;charset=utf-8;'}));
+  a.download='inscritos_rcp_basico.csv'; a.click();
+}
+
+init();
 </script>
 </body>
 </html>
