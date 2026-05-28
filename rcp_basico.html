@@ -140,7 +140,7 @@ function g(id){ return document.getElementById(id); }
 
 function init(){
   fetch(API + '?sheet=Hoja%201').then(function(r){ return r.json(); }).then(function(data){
-    inscritos = data.filter(function(r){ return r.curso === CURSO; });
+    inscritos = data;
     var disp = CUPO - inscritos.length;
     g('cupo-num').textContent = Math.max(0,disp);
     if(disp <= 0){
